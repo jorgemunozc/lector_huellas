@@ -7,10 +7,10 @@ test:
 	${CC} ${CFLAGS} ${FPRINTFLAGS} main.c -o bin/test
 
 verificar:
-	${CC} ${CFLAGS} ${MYSQLFLAGS} verificar.c db_config.c -o bin/verificar
+	${CC} ${CFLAGS} ${MYSQLFLAGS} verificar.c db_driver.c -o bin/verificar
 
 enrolar:
-	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} enrolar.c db_config.c huella.c -o bin/enrolar
+	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} enrolar.c db_driver.c huella.c -o bin/enrolar
 
 all:
 	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} test.c db_config.c -o bin/verifyprint
