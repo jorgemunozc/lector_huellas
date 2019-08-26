@@ -3,14 +3,14 @@ CFLAGS = -g
 FPRINTFLAGS = -L="/usr/include/libfprint" -lfprint
 MYSQLFLAGS = `mysql_config --cflags --libs`
 
-main:
-	${CC} ${CFLAGS} ${FPRINTFLAGS} main.c -o fingerprint
+test:
+	${CC} ${CFLAGS} ${FPRINTFLAGS} main.c -o bin/test
 
 connectdb:
-	${CC} ${CFLAGS} ${MYSQLFLAGS} connectdb.c db_config.c -o testDB
+	${CC} ${CFLAGS} ${MYSQLFLAGS} connectdb.c db_config.c -o bin/testDB
 
-enroll:
-	${CC} ${CFLAGS} ${FPRINTFLAGS} enrolar.c -o enrolar
+enrolar:
+	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} enrolar.c db_config.c huella.c -o bin/enrolar
 
 all:
-	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} main.c db_config.c -o verifyprint
+	${CC} ${CFLAGS} ${FPRINTFLAGS} ${MYSQLFLAGS} test.c db_config.c -o bin/verifyprint

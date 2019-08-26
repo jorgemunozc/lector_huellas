@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <libfprint/fprint.h>
 
+#include "huella.h"
+
 
 struct fp_dscv_dev *discover_device(struct fp_dscv_dev **discovered_devs)
 {
@@ -119,9 +121,33 @@ int main()
         return 0;
     }
 
+    printf("Huella enrolada exitosamente.\n");
     buffer_size = fp_print_data_get_data(info_huella, &buffer);
 
+    //Guardamos huella en BD
+    guardarHuella(buffer, buffer_size, "18137430-6");
+
+    // /**
+    //  * Pequeño test para verificar si se reconoce la huella ingresada
+    //  * */
+    // int verif_status = fp_verify_finger(dev, info_huella);
+    // switch (verif_status)
+    // {
+    // case FP_VERIFY_MATCH:
+    //     printf("Huella coincide! :)");
+    //     break;
+    // case FP_VERIFY_NO_MATCH:
+    //     printf("Huella no coincide :(");
+    //     break;
+    // default:
+    //     printf("Algun error sucedio :*");
+    //     break;
+    // }
+    // printf("\n");
+    //Liberamos la memoria asociada a la huella
+    fp_print_data_free(info_huella);
+    fp_dev_close(dev);
     fp_exit();
-    
+    return 0;
 
 }

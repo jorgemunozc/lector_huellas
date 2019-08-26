@@ -17,7 +17,7 @@
     
 //metodos
 int db_init(void);
-int db_connect(void);
+MYSQL* db_connect(void);
 void db_disconnect(void);
 
 #endif

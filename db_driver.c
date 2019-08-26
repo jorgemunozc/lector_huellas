@@ -6,15 +6,11 @@
     char *error;
     
 
-int db_connect()
+MYSQL* db_connect()
 {
     mysql_init(&mysql);
     conn = mysql_real_connect(&mysql, HOST, USER, PASS, DB, PORT , NULL, CLIENT_FLAG);
-    if ( conn == NULL)
-    {
-        return -1;
-    }
-    return 0;
+    return conn;
 
 }
 
