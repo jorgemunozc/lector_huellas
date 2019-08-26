@@ -6,7 +6,7 @@ Instaladas librerías:
 - Libfprint [https://fprint.freedesktop.org]
 - MySQL C API [https://dev.mysql.com/downloads/connector/c/]
 
-# Instalando librerías en Debian (Linux)
+# Instalando librerías en Debian (Linux) y Raspbian (por confirmar)
 Para instalar estas librerías en Debian utilizamos los siguientes comandos:
 - Instalar libfprint
 ``` sudo apt install libfprint0 libfprint-dev``` 
@@ -16,5 +16,8 @@ Para instalar estas librerías en Debian utilizamos los siguientes comandos:
 
 # Sobre archivos
 Archivo principal para enrolar huella y guardarla en BD:  *enrolar.c*
-Para compilar este archivo solo basta ingresar `make enrolar` en la terminal. El
-archivo binario se crea en la carpeta `bin`
+- Para compilar este archivo solo basta ingresar `make enrolar` en la terminal.
+- Para compilar el archivo que verifica las huellas: *verificar.c*
+``` make verificar ```
+
+Todos los archivos binarios generados quedan almacenados en la carpeta *bin*
