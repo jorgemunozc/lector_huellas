@@ -9,7 +9,11 @@ Instaladas librerías:
 # Instalando librerías en Debian (Linux)
 Para instalar estas librerías en Debian utilizamos los siguientes comandos:
 - Instalar libfprint
-´´ sudo apt install libfprint0 libfprint-dev´´ 
+``` sudo apt install libfprint0 libfprint-dev``` 
 
-- Instalar MySQL API COnnector/C
-´sudo apt install default-libmysqlclient-dev´
+- Instalar MySQL API Connector/C
+```sudo apt install default-libmysqlclient-dev```
+
+# Sobre archivos
+Archivo principal para enrolar huella y guardarla en BD:  * enrolar.c *
+Para compilar este archivo solo basta ingresar `make enroll` en la terminal.
