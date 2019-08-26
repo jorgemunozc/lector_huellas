@@ -21,3 +21,9 @@ Archivo principal para enrolar huella y guardarla en BD:  *enrolar.c*
 ``` make verificar ```
 
 Todos los archivos binarios generados quedan almacenados en la carpeta *bin*
+
+## db_driver.h
+Variables de entorno para configurar la conexion a la BD
+
+## huella.h
+Modulo que tendrá las funciones que se encarguen de manipular la huella almacenada en BD
