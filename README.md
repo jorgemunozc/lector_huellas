@@ -18,6 +18,7 @@ Para instalar estas librerías en Debian utilizamos los siguientes comandos:
 Archivo principal para enrolar huella y guardarla en BD:  *enrolar.c*
 - Para compilar este archivo solo basta ingresar `make enrolar` en la terminal.
 - Para compilar el archivo que verifica las huellas: *verificar.c*
+
 ``` make verificar ```
 
 Todos los archivos binarios generados quedan almacenados en la carpeta *bin*
