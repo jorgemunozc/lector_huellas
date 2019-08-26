@@ -1,3 +1,8 @@
+/**
+ * Modulo para recuperar las huellas desde la BD y luego compararlas con
+ * un escaneo de la huella del usuario a identificar
+ * */
+
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>

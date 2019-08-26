@@ -4,4 +4,6 @@
 #include <mariadb/mysql.h>
 #include <libfprint/fprint.h>
 int guardarHuella(unsigned char *buffer, size_t buffer_size, const char *rut);
+int guardarHuellaPrep(unsigned char *buffer, size_t buffer_size, const char *rut);
+
 #endif

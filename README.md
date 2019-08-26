@@ -15,5 +15,6 @@ Para instalar estas librerías en Debian utilizamos los siguientes comandos:
 ```sudo apt install default-libmysqlclient-dev```
 
 # Sobre archivos
-Archivo principal para enrolar huella y guardarla en BD:  * enrolar.c *
-Para compilar este archivo solo basta ingresar `make enroll` en la terminal.
+Archivo principal para enrolar huella y guardarla en BD:  *enrolar.c*
+Para compilar este archivo solo basta ingresar `make enrolar` en la terminal. El
+archivo binario se crea en la carpeta `bin`

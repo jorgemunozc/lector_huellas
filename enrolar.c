@@ -1,3 +1,10 @@
+/**
+ * Modulo para enrolar huella y luego guardarla en BD
+ * 
+ * TODO: guardado en BD
+ * */
+
+
 #include <stdio.h>
 #include <stddef.h>
 #include <libfprint/fprint.h>
@@ -123,9 +130,11 @@ int main()
 
     printf("Huella enrolada exitosamente.\n");
     buffer_size = fp_print_data_get_data(info_huella, &buffer);
+    fp_print_data_free(info_huella);
 
     //Guardamos huella en BD
-    guardarHuella(buffer, buffer_size, "18137430-6");
+    // guardarHuella(buffer, buffer_size, "1234567-9");
+    guardarHuellaPrep(buffer, buffer_size, "1234567-9");
 
     // /**
     //  * Pequeño test para verificar si se reconoce la huella ingresada
@@ -145,7 +154,6 @@ int main()
     // }
     // printf("\n");
     //Liberamos la memoria asociada a la huella
-    fp_print_data_free(info_huella);
     fp_dev_close(dev);
     fp_exit();
     return 0;
