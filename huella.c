@@ -2,48 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-// #include <mariadb/mysql.h>
+#include <mariadb/mysql.h>
+#include <libfprint/fprint.h>
 
 #include "db_driver.h"
 #include "huella.h"
 
-int guardarHuella(unsigned char *buffer_data, size_t buffer_size, const char* rut)
-{
-    MYSQL mysql, *conn = NULL;
-    MYSQL_STMT *STMT;
-    char *sql = "UPDATE alumnos SET huella=\'";
-    char *sql_end;
-    char *stmt;
-    int affected_rows = 0;
-    int status = 0;
-    sprintf(sql_end, "\' WHERE rut_alumno='%s'", rut);
-    stmt = malloc(sizeof(char)*(strlen(sql) + strlen(sql_end) + buffer_size));
-    sprintf(stmt, sql);
-    mysql_init(&mysql);
-    conn = mysql_real_connect(&mysql, HOST, USER, PASS, DB, PORT, UNIX_SOCKET, CLIENT_FLAG);
-    if (!conn)
-    {
-        printf("Error!\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    int size = mysql_real_escape_string(conn, stmt + strlen(sql), buffer_data, buffer_size);
-    sprintf(stmt + strlen(sql) + buffer_size, sql_end);
-    status = mysql_real_query(conn, stmt, (unsigned int) (strlen(stmt)));
-    if (status != 0)
-    {
-        printf("Error: %s", mysql_error(conn));
-        // mysql_close(conn);
-        return -1;
-    }
-    affected_rows = mysql_affected_rows(conn);
-    printf("%d filas afectadas en la BD\n", affected_rows);
-    mysql_close(&mysql);
-    return affected_rows;
-}
-
 //Test for prepared sql statements
-int guardarHuellaPrep(unsigned char *buffer_data, size_t buffer_size, const char* rut)
+int guardarHuellaEnBD(unsigned char *buffer_data, size_t buffer_size, char* rut)
 {
     MYSQL mysql, *conn = NULL;
     MYSQL_STMT *STMT;
@@ -83,6 +49,22 @@ int guardarHuellaPrep(unsigned char *buffer_data, size_t buffer_size, const char
     affected = mysql_stmt_affected_rows(STMT);
     mysql_stmt_close(STMT);
     
-    
+    return 1;
     /**/
+}
+
+/**
+ * Funcion para comparar huella escaneada contra la base de datos
+ * @param 
+ * */
+
+int auntenticarHuella(struct fp_print_data *huellaEscaneada, struct fp_print_data *huellaEnBD)
+{
+    //Verificamos que ambas huellas existan
+    if (!huellaEscaneada || !huellaEnBD)
+    {
+        printf("No se puede acceder a una de las huellas.\n");
+        return -1;
+    }
+
 }

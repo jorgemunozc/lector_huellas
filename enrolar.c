@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <libfprint/fprint.h>
+#include <unistd.h>
 
 #include "huella.h"
+#include "verificar.h"
 
 
 struct fp_dscv_dev *discover_device(struct fp_dscv_dev **discovered_devs)
@@ -128,17 +130,25 @@ int main()
         return 0;
     }
 
-    printf("Huella enrolada exitosamente.\n");
+    printf("Huella enrolada exitosamente en memoria.\n");
     buffer_size = fp_print_data_get_data(info_huella, &buffer);
     fp_print_data_free(info_huella);
 
     //Guardamos huella en BD
-    // guardarHuella(buffer, buffer_size, "1234567-9");
-    guardarHuellaPrep(buffer, buffer_size, "1234567-9");
-
+    // guardarHuellaEnBD(buffer, buffer_size, "1234567-9");
+    sleep(1);
+    printf("Procediendo a autentificar huella, por favor ponga su dedo indice...\n");
+    verificarHuella(dev);
+    sleep(1);
+    
     // /**
     //  * Pequeño test para verificar si se reconoce la huella ingresada
     //  * */
+    // if (!fp_dev_supports_print_data(dev, info_huella))
+    // {
+    //     printf("Dispositivo no compatible con la captura de huella");
+    // }
+
     // int verif_status = fp_verify_finger(dev, info_huella);
     // switch (verif_status)
     // {
@@ -154,8 +164,12 @@ int main()
     // }
     // printf("\n");
     //Liberamos la memoria asociada a la huella
+    //TEst para verificar huella en BD
+
     fp_dev_close(dev);
     fp_exit();
+
+
     return 0;
 
 }

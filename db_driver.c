@@ -14,7 +14,7 @@ MYSQL* db_connect()
 
 }
 
-void db_disconnect()
+void db_disconnect(MYSQL *conn)
 {
     if (conn != NULL)
     {
