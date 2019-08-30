@@ -138,7 +138,7 @@ int main()
     // guardarHuellaEnBD(buffer, buffer_size, "1234567-9");
     sleep(1);
     printf("Procediendo a autentificar huella, por favor ponga su dedo indice...\n");
-    verificarHuella(dev);
+    verificarHuellaPrep(dev);
     sleep(1);
     
     // /**

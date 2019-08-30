@@ -97,19 +97,11 @@ int verificarHuella(struct fp_dev *dev)
             printf("\n"); */
         }
     }
-    else  // mysql_store_result() returned nothing; should it have?
-    {
-        if(mysql_field_count(conn) == 0)
-        {
-            // query does not return data
-            // (it was not a SELECT)
-        }
-        else // mysql_store_result() should have returned data
-        {
-            fprintf(stderr, "Error: %s\n", mysql_error(conn));
-        }
-    }
+    
 
+    /**
+     * Comparacion de la huella almacenada en la BD con la escaneada
+     * */
     resultado_ver = fp_identify_finger(dev, huellasBD, &posHuella);
     switch (resultado_ver)
     {
@@ -139,4 +131,76 @@ int verificarHuella(struct fp_dev *dev)
     mysql_free_result(res);
     mysql_close(conn);
     return 0;
+}
+
+
+int verificarHuellaPrep(struct fp_dev *dev)
+{ 
+    MYSQL *conn;
+    MYSQL_RES *metadata_res;
+    MYSQL_STMT *stmt;
+    MYSQL_BIND bind[2];
+
+    char *sql = "";
+    int status = 1;
+    char *nombre = "";
+    char *error;
+    unsigned char *buffer_data;
+    unsigned long MAX_BUFFER_SIZE = 16777215; //16MB
+    MYSQL_FIELD *fields; 
+    int val = 0;
+
+    memset(bind, 0, sizeof(bind));
+    conn = db_connect();
+    if (!conn)
+    {
+        error = mysql_error(conn);
+        printf("FATAL: No se pudo conectar a la BD. Error: %s\n", error);
+        exit(0);
+    }
+    //Iniciamos la estructura para la consulta preparada
+    stmt = mysql_stmt_init(conn);
+    sql = "SELECT huella, nombres_alumno FROM alumnos";
+    //Preparamos la consulta en el servidor
+    status = mysql_stmt_prepare(stmt, sql, strlen(sql));
+    if (status != 0){
+        error = mysql_stmt_error(stmt);
+        printf("ERROR: %s\n", *error);
+        return 0;
+    }
+    //Actualizamos el campo que nos da el tamaño maximo de la columna dentro del resultado con
+    //la metadata de las columnas
+    mysql_stmt_attr_set(stmt, STMT_ATTR_UPDATE_MAX_LENGTH, (void *)&val);
+    metadata_res = mysql_stmt_result_metadata(stmt);
+    // mysql_stmt_store_result(stmt);
+    fields = mysql_fetch_fields(metadata_res);
+
+    //Configuracion de campos que se van a recuperar de la BD
+    bind[0].buffer_type = MYSQL_TYPE_BLOB;
+    bind[0].buffer = buffer_data;
+    bind[0].buffer_length = fields[0].max_length;
+
+
+    bind[1].buffer_type = MYSQL_TYPE_STRING;
+    bind[1].buffer = nombre;
+    bind[1].buffer_length = fields[1].max_length;
+
+    mysql_stmt_execute(stmt);
+    //Amarramos las variables bind a la consulta preparada
+    status = mysql_stmt_bind_result(stmt, bind);
+    if (status != 0)
+    {
+        error = mysql_stmt_error(stmt);
+        printf("ERROR: %s\n", error);
+    }
+    //Recuperamos las filas retornadas por la consulta
+    while (mysql_stmt_fetch(stmt))
+    {
+        fprintf(stdout, "%s\n", buffer_data, fields[0].max_length);
+    }
+
+    mysql_free_result(metadata_res);
+    db_disconnect(conn);
+    return 0;
+
 }

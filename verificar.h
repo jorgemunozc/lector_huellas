@@ -3,6 +3,6 @@
 
 #include <libfprint/fprint.h>
 
-int verificarHuella(struct fp_dev *dev);
+int verificarHuellaPrep(struct fp_dev *dev);
 
 #endif
