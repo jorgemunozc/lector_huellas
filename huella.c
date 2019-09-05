@@ -32,7 +32,7 @@ int guardarHuellaEnBD(unsigned char *buffer_data, size_t buffer_size, char* rut)
     }
 
     //bindign params
-    bind[0].buffer_type = MYSQL_TYPE_BLOB;
+    bind[0].buffer_type = MYSQL_TYPE_LONG_BLOB;
     bind[0].buffer = buffer_data;
     bind[0].buffer_length = buffer_size;
     bind[0].length = &buffer_size;

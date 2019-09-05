@@ -7,11 +7,12 @@
 
 #include <stdio.h>
 #include <stddef.h>
-#include <libfprint/fprint.h>
 #include <unistd.h>
 
+#include "libs/libfprint/fp_internal.h"
 #include "huella.h"
 #include "verificar.h"
+#include "libs/libfprint/fprint.h"
 
 
 struct fp_dscv_dev *discover_device(struct fp_dscv_dev **discovered_devs)
@@ -87,9 +88,9 @@ int main()
 	struct fp_dscv_dev *ddev;
 	struct fp_dscv_dev **discovered_devs;
 	struct fp_dev *dev;
-	struct fp_print_data *info_huella;
+	struct fp_print_data *info_huella, *huella_descomprimida = NULL;
 
-    unsigned char *buffer;
+    unsigned char *buffer = NULL;
     size_t buffer_size;
 
     r = fp_init();
@@ -122,49 +123,59 @@ int main()
         return 0;
     }
     
-    info_huella = enrolar(dev);
+    // info_huella = enrolar(dev);
     
-    if (!info_huella)
-    {
-        printf("Saliendo....\n");
-        return 0;
-    }
+    // if (!info_huella)
+    // {
+    //     printf("Saliendo....\n");
+    //     return 0;
+    // }
 
-    printf("Huella enrolada exitosamente en memoria.\n");
-    buffer_size = fp_print_data_get_data(info_huella, &buffer);
-    fp_print_data_free(info_huella);
+    // printf("Huella enrolada exitosamente en memoria.\n");
+    // buffer_size = fp_print_data_get_data(info_huella, &buffer);
+    // fp_print_data_free(info_huella);
 
     //Guardamos huella en BD
-    // guardarHuellaEnBD(buffer, buffer_size, "1234567-9");
-    sleep(1);
+    // guardarHuellaEnBD(buffer, buffer_size, "18525652-9");
+    // sleep(1);
     printf("Procediendo a autentificar huella, por favor ponga su dedo indice...\n");
     verificarHuellaPrep(dev);
-    sleep(1);
+    // sleep(1);
     
-    // /**
-    //  * Pequeño test para verificar si se reconoce la huella ingresada
-    //  * */
-    // if (!fp_dev_supports_print_data(dev, info_huella))
+    /**
+     * Pequeño test para verificar si se reconoce la huella ingresada
+     * */
+    // Descomprimimos huella
+    // huella_descomprimida = fp_print_data_from_data(buffer, buffer_size);
+    // if (!fp_dev_supports_print_data(dev, huella_descomprimida))
     // {
     //     printf("Dispositivo no compatible con la captura de huella");
     // }
-
-    // int verif_status = fp_verify_finger(dev, info_huella);
-    // switch (verif_status)
+    // int verif_status = 0;
+    // int j = 0;
+    // do
     // {
-    // case FP_VERIFY_MATCH:
-    //     printf("Huella coincide! :)");
-    //     break;
-    // case FP_VERIFY_NO_MATCH:
-    //     printf("Huella no coincide :(");
-    //     break;
-    // default:
-    //     printf("Algun error sucedio :*");
-    //     break;
-    // }
+    //     /* code */
+    //     printf("Ponga su dedo\n");
+    //     verif_status = fp_verify_finger(dev, info_huella);
+    //     switch (verif_status)
+    //     {
+    //     case FP_VERIFY_MATCH:
+    //         printf("Huella coincide! :)\n");
+    //         break;
+    //     case FP_VERIFY_NO_MATCH:
+    //         printf("Huella no coincide :(\n");
+    //         break;
+    //     default:
+    //         printf("Algun error sucedio :*\n");
+    //         break;
+    //     }
+    //     j++;
+    // } while (j < 20);
+    
     // printf("\n");
-    //Liberamos la memoria asociada a la huella
-    //TEst para verificar huella en BD
+    // Liberamos la memoria asociada a la huella
+    // TEst para verificar huella en BD
 
     fp_dev_close(dev);
     fp_exit();
