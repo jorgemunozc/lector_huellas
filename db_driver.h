@@ -6,10 +6,10 @@
 #include <stddef.h>
 
 //Configuracion de variables de iniciacion de conexion
-    #define HOST "192.168.1.92"
-    #define DB "ssalud"
-    #define USER "zh7k0"
-    #define PASS "pepelota"
+    #define HOST "localhost"
+    #define DB "db_name"
+    #define USER "user_name"
+    #define PASS "password"
     #define PORT  3306
     #define UNIX_SOCKET NULL
     #define CLIENT_FLAG 0
